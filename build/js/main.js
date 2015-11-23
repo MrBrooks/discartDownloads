@@ -14129,9 +14129,13 @@ $(document).ready(function() {
   }
 
 	$("img").mousedown(function(event) {
+
 		if (event.which === 3) {
 			$("#notDownload").css({"top": event.pageY, "left": event.pageX, "display": "block"});
 			setTimeout(function () {$("#notDownload").css({"display": "none"})}, 700)
+		}
+		if (event.which === 1) {
+			$(document).mousedown(false);
 		}
 	});
 });
