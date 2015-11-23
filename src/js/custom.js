@@ -1,7 +1,7 @@
 /**************************************/
 /* Custom JavaScript files supervisor */
 /**************************************/
-
+document.oncontextmenu = function() {return false;}; 
 $(document).ready(function() {
 
     /* Custom */
@@ -13,14 +13,13 @@ $(document).ready(function() {
   for (var i = 1; i <= 20; i++){
     gallery.append("<img src='img/images/"+i+".jpg'>");
   }
-});
 
-document.oncontextmenu = function() {return false;}; 
-	$(document).ready(function(){ 
-	$(".gallery").mousedown(function(event) {
+	$("img").mousedown(function(event) {
 		if (event.which === 3) {
 			$("#notDownload").css({"top": event.pageY, "left": event.pageX, "display": "block"});
 			setTimeout(function () {$("#notDownload").css({"display": "none"})}, 700)
 		}
 	});
 });
+
+

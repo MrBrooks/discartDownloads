@@ -16,7 +16,7 @@ var gulp = require('gulp'), // Task runner
     concat = require('gulp-concat'), // Concatenates files
     streamqueue = require('streamqueue'), // Pipe queued streams progressively, keeping datas order.
     sourcemaps = require('gulp-sourcemaps'), // Write source maps
-    sass = require('gulp-sass'), //Compile Sass to CSS
+    //sass = require('gulp-sass'), //Compile Sass to CSS
     less = require('gulp-less'), // Compile Less to CSS
     lessReporter = require('gulp-less-reporter'), // Error reporter for gulp-less
     autoprefixer = require('gulp-autoprefixer'), // Prefix CSS
@@ -25,15 +25,15 @@ var gulp = require('gulp'), // Task runner
     uglify = require('gulp-uglify'), // Minify JS
     jshint = require('gulp-jshint'), // JS code linter
     stylish = require('jshint-stylish'), // Reporter for JSHint
-    imagemin = require('gulp-imagemin'), // Optimize images
-    pngquant = require('imagemin-pngquant'), // PNG plugin for ImageMin
-    spritesmith = require('gulp.spritesmith'), // Convert a set of images into a spritesheet and CSS variables
-    svg2png = require('gulp-svg2png'), // Convert SVGs to PNGs
-    svgmin = require('gulp-svgmin'), // Minify SVG with SVGO
-    svgspritesheet = require('gulp-svg-spritesheet'), // Convert a set of SVGs into a spritesheet and CSS variables
+    // imagemin = require('gulp-imagemin'), // Optimize images
+    // //pngquant = require('imagemin-pngquant'), // PNG plugin for ImageMin
+    // spritesmith = require('gulp.spritesmith'), // Convert a set of images into a spritesheet and CSS variables
+    // svg2png = require('gulp-svg2png'), // Convert SVGs to PNGs
+    // svgmin = require('gulp-svgmin'), // Minify SVG with SVGO
+    // svgspritesheet = require('gulp-svg-spritesheet'), // Convert a set of SVGs into a spritesheet and CSS variables
     browserSync = require("browser-sync"), // Synchronised browser testing
     reload = browserSync.reload,
-    ghPages = require('gulp-gh-pages'), // Publish contents to Github pages
+    //ghPages = require('gulp-gh-pages'), // Publish contents to Github pages
     runSequence = require('run-sequence').use(gulp); // Run a series of dependent gulp tasks in order
 
 /* Path settings */
@@ -86,7 +86,7 @@ var config = {
     server: {
         baseDir: "./build"
     },
-    // tunnel: true,
+    // tunnel: true,K
     host: 'localhost',
     port: 9000,
     injectChanges: true,
@@ -156,7 +156,7 @@ gulp.task('less', function() {
         .pipe(reload({stream: true}));
 });
 
-/*Sass*/
+/*Sass
 gulp.task('sass', function() {
     return gulp.src(projectPath.src.stylesass)
         .pipe(sourcemaps.init())
@@ -172,90 +172,90 @@ gulp.task('sass', function() {
         }))
         .pipe(gulp.dest(projectPath.build.css))
         .pipe(reload({stream: true}));
-});
+});*/
 
 /* Images */
-gulp.task('images', function () {
-    return gulp.src(projectPath.src.img)
-        .pipe(imagemin({
-            progressive: true,
-            optimizationLevel: 5,
-            use: [pngquant()],
-            interlaced: true
-        }))
-        .pipe(size({
-            title: 'Images'
-        }))
-        .pipe(gulp.dest(projectPath.build.img))
-        .pipe(reload({stream: true}));
-});
+// gulp.task('images', function () {
+//     return gulp.src(projectPath.src.img)
+//         .pipe(imagemin({
+//             progressive: true,
+//             optimizationLevel: 5,
+//             use: [pngquant()],
+//             interlaced: true
+//         }))
+//         .pipe(size({
+//             title: 'Images'
+//         }))
+//         .pipe(gulp.dest(projectPath.build.img))
+//         .pipe(reload({stream: true}));
+// });
 
 /* SVG */
-gulp.task('svg', function () {
-    return gulp.src(projectPath.src.svg)
-        .pipe(svgmin())
-        .pipe(size({
-            title: 'SVG'
-        }))
-        .pipe(gulp.dest(projectPath.build.svg))
-        .pipe(reload({stream: true}));
-});
+// gulp.task('svg', function () {
+//     return gulp.src(projectPath.src.svg)
+//         .pipe(svgmin())
+//         .pipe(size({
+//             title: 'SVG'
+//         }))
+//         .pipe(gulp.dest(projectPath.build.svg))
+//         .pipe(reload({stream: true}));
+// });
 
-/* PNG Sprite */
-gulp.task('png-sprite', function () {
-    // Generate spritesheet
-    var spriteData = gulp.src(projectPath.src.pngSprite).pipe(spritesmith({
-        imgName: 'png-sprite.png',
-        imgPath: '../img/sprites/png/png-sprite.png',
-        retinaSrcFilter: projectPath.src.pngRetinaSprite,
-        retinaImgName: 'png-sprite-2x.png',
-        retinaImgPath: '../img/sprites/png/png-sprite-2x.png',
-        padding: 0,
-        cssName: '_png-sprite.less',
-        cssVarMap: function (sprite) {
-            sprite.name = 'sprite__' + sprite.name;
-        }
-    }));
+// /* PNG Sprite */
+// gulp.task('png-sprite', function () {
+//     // Generate spritesheet
+//     var spriteData = gulp.src(projectPath.src.pngSprite).pipe(spritesmith({
+//         imgName: 'png-sprite.png',
+//         imgPath: '../img/sprites/png/png-sprite.png',
+//         retinaSrcFilter: projectPath.src.pngRetinaSprite,
+//         retinaImgName: 'png-sprite-2x.png',
+//         retinaImgPath: '../img/sprites/png/png-sprite-2x.png',
+//         padding: 0,
+//         cssName: '_png-sprite.less',
+//         cssVarMap: function (sprite) {
+//             sprite.name = 'sprite__' + sprite.name;
+//         }
+//     }));
 
-    // Pipe image stream through image optimizer and onto disk
-    spriteData.img
-        .pipe(imagemin())
-        .pipe(gulp.dest(projectPath.build.pngSprite));
+//     // Pipe image stream through image optimizer and onto disk
+//     spriteData.img
+//         .pipe(imagemin())
+//         .pipe(gulp.dest(projectPath.build.pngSprite));
 
-    // Pipe CSS stream onto disk
-    spriteData.css
-        .pipe(gulp.dest(projectPath.build.pngSpriteCSS))
-        .pipe(reload({stream:true}));
-});
+//     // Pipe CSS stream onto disk
+//     spriteData.css
+//         .pipe(gulp.dest(projectPath.build.pngSpriteCSS))
+//         .pipe(reload({stream:true}));
+// });
 
-/* SVG sprite */
-gulp.task('svg-sprite', function () {
-    gulp.src(projectPath.src.svgSprite)
-        .pipe(svgspritesheet({
-            cssPathNoSvg: '../img/sprites/svg/svg-sprite.png',
-            cssPathSvg: '../img/sprites/svg/svg-sprite.svg',
-            padding: 0,
-            pixelBase: 16,
-            positioning: 'packed',
-            templateSrc: projectPath.src.svgSpriteTpl,
-            templateDest: projectPath.build.svgSpriteCSS,
-            units: 'px'
-        }))
-        .pipe(svgmin())
-        .pipe(gulp.dest(projectPath.build.svgSprite))
-        .pipe(svg2png())
-        .pipe(gulp.dest(projectPath.build.svgSpriteNoSvg));
-});
+// /* SVG sprite */
+// gulp.task('svg-sprite', function () {
+//     gulp.src(projectPath.src.svgSprite)
+//         .pipe(svgspritesheet({
+//             cssPathNoSvg: '../img/sprites/svg/svg-sprite.png',
+//             cssPathSvg: '../img/sprites/svg/svg-sprite.svg',
+//             padding: 0,
+//             pixelBase: 16,
+//             positioning: 'packed',
+//             templateSrc: projectPath.src.svgSpriteTpl,
+//             templateDest: projectPath.build.svgSpriteCSS,
+//             units: 'px'
+//         }))
+//         .pipe(svgmin())
+//         .pipe(gulp.dest(projectPath.build.svgSprite))
+//         .pipe(svg2png())
+//         .pipe(gulp.dest(projectPath.build.svgSpriteNoSvg));
+// });
 
 /* Fonts */
-gulp.task('fonts', function() {
-    return gulp.src(projectPath.src.fonts)
-        .pipe(size({
-            title: 'Fonts'
-        }))
-        .pipe(gulp.dest(projectPath.build.fonts))
-        .pipe(reload({stream: true}));
-});
+// gulp.task('fonts', function() {
+//     return gulp.src(projectPath.src.fonts)
+//         .pipe(size({
+//             title: 'Fonts'
+//         }))
+//         .pipe(gulp.dest(projectPath.build.fonts))
+//         .pipe(reload({stream: true}));
+// });
 
 /* Clean build directory */
 gulp.task('clean', function (cb) {
@@ -269,20 +269,20 @@ gulp.task('build', function(callback) {
         'html',
         'js',
         'less',
-        'images',
-        'png-sprite',
-        'svg-sprite',
-        'svg',
-        'fonts',
+        //'images',
+        //'png-sprite',
+        //'svg-sprite',
+        //'svg',
+        //'fonts',
         // 'gh-pages',
         callback)
 });
 
 /* Github Pages */
-gulp.task('gh-pages', function() {
-    return gulp.src(projectPath.ghPages)
-        .pipe(ghPages());
-});
+// gulp.task('gh-pages', function() {
+//     return gulp.src(projectPath.ghPages)
+//         .pipe(ghPages());
+// });
 
 /* Watching */
 gulp.task('watch',['webserver'], function(){
@@ -298,21 +298,21 @@ gulp.task('watch',['webserver'], function(){
     watch([projectPath.watch.stylesass], function(event, cb) {
         gulp.start('sass');
     });
-    watch([projectPath.watch.img], function(event, cb) {
-        gulp.start('images');
-    });
-    watch([projectPath.watch.svg], function(event, cb) {
-        gulp.start('svg');
-    });
-    watch([projectPath.watch.pngSprite], function(event, cb) {
-        gulp.start('png-sprite');
-    });
-    watch([projectPath.watch.svgSprite], function(event, cb) {
-        gulp.start('svg-sprite');
-    });
-    watch([projectPath.watch.fonts], function(event, cb) {
-        gulp.start('fonts');
-    });
+    // watch([projectPath.watch.img], function(event, cb) {
+    //     gulp.start('images');
+    // });
+    // watch([projectPath.watch.svg], function(event, cb) {
+    //     gulp.start('svg');
+    // });
+    // watch([projectPath.watch.pngSprite], function(event, cb) {
+    //     gulp.start('png-sprite');
+    // });
+    // watch([projectPath.watch.svgSprite], function(event, cb) {
+    //     gulp.start('svg-sprite');
+    // });
+    // watch([projectPath.watch.fonts], function(event, cb) {
+    //     gulp.start('fonts');
+    // });
 });
 
 /* Default */
